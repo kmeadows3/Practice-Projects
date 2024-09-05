@@ -1,0 +1,11 @@
+{
+  "parserOptions": {
+        "sourceType": "module",
+        "ecmaVersion": "latest",
+        "parser": {
+          "ts": "@typescript-eslint/parser",
+          "js": "espree",
+          "typescript": "@typescript-eslint/parser"
+        }
+    }
+}
