@@ -87,7 +87,23 @@ export class Hand {
     }
 
     compare(that:Hand): number{
-        return this.getHighCard().compare(that.getHighCard());
+        const thisScore: number[] = this.scoreHand();
+        const thisScoreRank = thisScore[0];
+        const thisScoreTieBreaker = thisScore[1];
+        const thisScoreSecondaryTie = thisScore[2] ? thisScore[2] : 0;
+        const thatScore: number[] = that.scoreHand();
+        const thatScoreRank = thatScore[0];
+        const thatScoreTieBreaker = thatScore[1];
+        const thatScoreSecondaryTie = thatScore[2] ? thatScore[2] : 0;
+
+
+        if (thisScoreRank - thatScoreRank != 0){
+            return thisScoreRank - thatScoreRank;
+        } else if ( thisScoreTieBreaker - thatScoreTieBreaker != 0 ){
+            return thisScoreTieBreaker - thatScoreTieBreaker;
+        }
+        
+        return thisScoreSecondaryTie - thatScoreSecondaryTie;
     }
 
 
@@ -140,26 +156,26 @@ export class Hand {
         }
     }
 
-    scoreHand(): number{
+    scoreHand(): number[]{
         let rankCounts = this.rankCounts();
-        let topRank: Rank;
+        let topRank: Rank = Rank.TWO;
         let topCount: number = 0;
-        let secondPairRank;
+        let secondPairRank: number = 0;
 
         rankCounts.forEach( (count, rank) => {
             if(count == topCount && topCount > 1){
                 if (rank > topRank){
-                    secondPairRank = topRank;
+                    secondPairRank = topRank.value;
                     topRank = rank;
                 } else {
-                    secondPairRank = rank;
+                    secondPairRank = rank.value;
                 }
             } else if ( count > topCount && topCount > 1){
-                secondPairRank = topRank;
+                secondPairRank = topRank.value;
                 topRank = rank;
                 topCount = count;
             } else if ( count < topCount && count > 1){
-                secondPairRank = rank;
+                secondPairRank = rank.value;
             } else if (count > topCount){
                 topCount = count;
                 topRank = rank;
@@ -187,7 +203,11 @@ export class Hand {
                 break;
         }
 
-        return bestHandMultiples > straightsAndFlushes ? bestHandMultiples : straightsAndFlushes;
+        if (bestHandMultiples > straightsAndFlushes) {
+            return secondPairRank ? [bestHandMultiples, topRank.value, secondPairRank] : [bestHandMultiples, topRank.value]
+        }
+
+        return [straightsAndFlushes, this.getHighCard().rank.value];
 
     }
 

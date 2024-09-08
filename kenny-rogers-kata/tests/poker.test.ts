@@ -234,54 +234,74 @@ describe('HANDS', ()=>{
     });
     describe('scoreHand', () => {
         test('Ace high hand returns High Card', ()=>{
-            expect(testConsts.ACE_HIGH_HAND.scoreHand()).toBe(HandRanks.HIGH_CARD);
+            expect(testConsts.ACE_HIGH_HAND.scoreHand()[0]).toBe(HandRanks.HIGH_CARD);
+            expect(testConsts.ACE_HIGH_HAND.scoreHand()[1]).toBe(Rank.ACE.value);
         });
         test('Pair of twos hand returns Pair', ()=>{
-            expect(testConsts.PAIR_OF_TWOS_HAND.scoreHand()).toBe(HandRanks.PAIR);
+            expect(testConsts.PAIR_OF_TWOS_HAND.scoreHand()[0]).toBe(HandRanks.PAIR);
+            expect(testConsts.PAIR_OF_TWOS_HAND.scoreHand()[1]).toBe(Rank.TWO.value);
         });
         test('Two Pair Twos and eights hand returns two pair', ()=>{
-            expect(testConsts.TWO_PAIR_TWOS_AND_EIGHTS_HAND.scoreHand()).toBe(HandRanks.TWO_PAIR);
+            expect(testConsts.TWO_PAIR_TWOS_AND_EIGHTS_HAND.scoreHand()[0]).toBe(HandRanks.TWO_PAIR);
+            expect(testConsts.TWO_PAIR_TWOS_AND_EIGHTS_HAND.scoreHand()[1]).toBe(Rank.EIGHT.value);
         });
         test('Three twos hand returns three of a kind', ()=>{
-            expect(testConsts.THREE_TWOS_HAND.scoreHand()).toBe(HandRanks.THREE_OF_A_KIND)
+            expect(testConsts.THREE_TWOS_HAND.scoreHand()[0]).toBe(HandRanks.THREE_OF_A_KIND);
+            expect(testConsts.THREE_TWOS_HAND.scoreHand()[1]).toBe(Rank.TWO.value);
         });
         test('Low straight hand returns straight', ()=>{
-            expect(testConsts.LOW_STRAIGHT_HAND.scoreHand()).toBe(HandRanks.STRAIGHT);
+            expect(testConsts.LOW_STRAIGHT_HAND.scoreHand()[0]).toBe(HandRanks.STRAIGHT);
+            expect(testConsts.LOW_STRAIGHT_HAND.scoreHand()[1]).toBe(Rank.SIX.value);
         });
         test('Low flush returns flush', ()=>{
-            expect(testConsts.LOW_FLUSH_HAND.scoreHand()).toBe(HandRanks.FLUSH);
+            expect(testConsts.LOW_FLUSH_HAND.scoreHand()[0]).toBe(HandRanks.FLUSH);
+            expect(testConsts.LOW_FLUSH_HAND.scoreHand()[1]).toBe(Rank.NINE.value);
         });
         test('Low full house hand returns full house', ()=>{
-            expect(testConsts.LOW_FULL_HOUSE_HAND.scoreHand()).toBe(HandRanks.FULL_HOUSE);
+            expect(testConsts.LOW_FULL_HOUSE_HAND.scoreHand()[0]).toBe(HandRanks.FULL_HOUSE);
+            expect(testConsts.LOW_FULL_HOUSE_HAND.scoreHand()[1]).toBe(Rank.TWO.value);
         });
         test('Four of a kind low hand returns four of a kind', ()=>{
-            expect(testConsts.FOUR_OF_A_KIND_LOW_HAND.scoreHand()).toBe(HandRanks.FOUR_OF_A_KIND);
+            expect(testConsts.FOUR_OF_A_KIND_LOW_HAND.scoreHand()[0]).toBe(HandRanks.FOUR_OF_A_KIND);
+            expect(testConsts.FIVE_OF_A_KIND_LOW.scoreHand()[1]).toBe(Rank.TWO.value);
         });
         test('Low straight flush returns straight flush', ()=>{
-            expect(testConsts.STRAIGHT_FLUSH_LOW_HAND.scoreHand()).toBe(HandRanks.STRAIGHT_FLUSH);
+            expect(testConsts.STRAIGHT_FLUSH_LOW_HAND.scoreHand()[0]).toBe(HandRanks.STRAIGHT_FLUSH);
+            expect(testConsts.STRAIGHT_FLUSH_LOW_HAND.scoreHand()[1]).toBe(Rank.EIGHT.value);
         });
         test('Royal flush returns royal flush', ()=>{
-            expect(testConsts.ROYAL_FLUSH.scoreHand()).toBe(HandRanks.ROYAL_FLUSH);
+            expect(testConsts.ROYAL_FLUSH.scoreHand()[0]).toBe(HandRanks.ROYAL_FLUSH);
+            expect(testConsts.ROYAL_FLUSH.scoreHand()[1]).toBe(Rank.ACE.value);
         });
         test('Five of a kind low returns five of kind', ()=>{
-            expect(testConsts.FIVE_OF_A_KIND_LOW.scoreHand()).toBe(HandRanks.FIVE_OF_A_KIND);
+            expect(testConsts.FIVE_OF_A_KIND_LOW.scoreHand()[0]).toBe(HandRanks.FIVE_OF_A_KIND);
+            expect(testConsts.FIVE_OF_A_KIND_LOW.scoreHand()[1]).toBe(Rank.TWO.value);
         });
     });
+    describe ('compare', ()=> {
+        test('Ace high returns positive when compared to seven high', ()=>{
+            expect(testConsts.ACE_HIGH_HAND.compare(testConsts.SEVEN_HIGH_HAND)).toBeGreaterThan(0);
+        });
+        test('Seven high returns negative when compared to ace high', ()=>{
+            expect(testConsts.SEVEN_HIGH_HAND.compare(testConsts.ACE_HIGH_HAND)).toBeLessThan(0);
+        });
+        test('Pair of twos hand returns positive when compared to ace high hand', ()=>{
+            expect(testConsts.PAIR_OF_TWOS_HAND.compare(testConsts.ACE_HIGH_HAND)).toBeGreaterThan(0);
+        });
+        test('Royal flush returns positive when compared to straight flush high hand', ()=>{
+            expect(testConsts.ROYAL_FLUSH.compare(testConsts.STRAIGHT_FLUSH_HIGH_HAND)).toBeGreaterThan(0);
+        });
+        test('Pair of twos hand returns negative when compared to pair of eights hand', ()=> {
+            expect(testConsts.PAIR_OF_TWOS_HAND.compare(testConsts.PAIR_OF_EIGHTS_HAND)).toBeLessThan(0);
+        });
+        test('Low full house hand negative when compared to high full house hand', ()=> {
+            expect(testConsts.LOW_FULL_HOUSE_HAND.compare(testConsts.HIGH_FULL_HOUSE_HAND)).toBeLessThan(0);
+        });
+        test('Low full house hand positive when compared to tied lower full house hand', ()=> {
+            expect(testConsts.LOW_FULL_HOUSE_HAND.compare(testConsts.TIED_LOWER_FULL_HOUSE_HAND)).toBeGreaterThan(0);
+        });
 
-
-
-    // describe ('compare', ()=> {
-    //     test('Ace high returns positive when compared to seven high', ()=>{
-    //         expect(testConsts.ACE_HIGH_HAND.compare(testConsts.SEVEN_HIGH_HAND)).toBeGreaterThan(0);
-    //     });
-    //     test('Seven high returns negative when compared to ace high', ()=>{
-    //         expect(testConsts.SEVEN_HIGH_HAND.compare(testConsts.ACE_HIGH_HAND)).toBeLessThan(0);
-    //     });
-    //     test('Pair of twos hand returns positive when compared to ace high hand', ()=>{
-    //         expect(testConsts.PAIR_OF_TWOS_HAND.compare(testConsts.ACE_HIGH_HAND)).toBeGreaterThan(0);
-    //     });
-
-    // });
+    });
 
 
 })
