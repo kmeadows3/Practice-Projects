@@ -42,4 +42,10 @@ Wild cards.  Add a list of wildcards to your funciton.  Hilarity ensues as the o
 
 Don't build an object model up front to represent cards.  Just write enough code to compare two hands.  A good test to start with would be high card wins.
 
+## Alt symbols
+
+♠
+♥
+♣
+♦
 
