@@ -1,0 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 20px;
+  padding: 0;
+}
+
+table, td, th {
+  text-align: center;
+  padding: 0px 10px;
+}
+
+.out-of-stock {
+  color: red;
+}
