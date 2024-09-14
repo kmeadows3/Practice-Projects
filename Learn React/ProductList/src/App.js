@@ -13,7 +13,6 @@ export default function Home() {
       return product.name.toUpperCase().includes(searchTerm.toUpperCase());
     }
     return true;
-
   });
 
 
